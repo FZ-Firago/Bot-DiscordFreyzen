@@ -3,8 +3,9 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 var prefix = "*"
+var prefix_reports = prefix + "report";
 
-client.login(process.env.TOKEN);
+client.login("NDY5MTQ0MDIzNTIxNjg5NjEw.DjD5uQ.SlTpQWPH2HpGVkC2zRujcgHVETI");
 
 client.on("ready" , () => {
     client.user.setGame("Freyzen.exe");
@@ -55,11 +56,11 @@ if(message.content.startsWith(prefix + "ban")) {
     if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("vous n'avez pas la permission pour ban");
 
     if(message.mentions.users.size === 0) {
-        return message.channel.send("vous devez mentionner un utilisateur")
+        return message.channel.send("Vous devez mentionner un utilisateur")
     }
     var ban = message.guild.member(message.mentions.user.first());
     if(!ban) {
-        return message.channel.send("je ne sais pas si l'utilisateur existe");
+        return message.channel.send("Je ne sais pas si l'utilisateur existe");
     }
     if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) {
         return message.channel.send("je n'ai pas la permission pour ban");
@@ -68,4 +69,18 @@ if(message.content.startsWith(prefix + "ban")) {
         message.channel.send(`${member.user.username} est ban par ${message.author.username}`)
     })
 }
-});
+
+       
+            if (message.content.startsWith('*report')) {
+                if(message.content === "*report") {
+                    return message.reply( "Vous devez mentionner un utilisateur et une cause")
+                }
+            var str = message.content
+            client.channels.get('469104398992277504').send(str.substring(7))
+        }
+    
+    }
+    
+    
+
+)
