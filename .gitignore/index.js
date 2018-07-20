@@ -1,17 +1,18 @@
 const Discord = require('discord.js');
 
-const client = new Discord.Client();
+const bot = new Discord.Client();
 
-var prefix = "*"
-var prefix_reports = prefix + "report";
+var prefix = "/"
 
-client.login("NDY5MTQ0MDIzNTIxNjg5NjEw.DjD5uQ.SlTpQWPH2HpGVkC2zRujcgHVETI");
 
-client.on("ready" , () => {
-    client.user.setGame("Freyzen.exe");
+bot.login("NDY5MTQ0MDIzNTIxNjg5NjEw.DjD5uQ.SlTpQWPH2HpGVkC2zRujcgHVETI");
+
+bot.on("ready" , () => {
+    bot.user.setActivity("Le Serveur" , {type:("WATCHING")});
+    //bot.user.setGame("Freyzen.exe");
 });
 
-client.on("message", message => {
+bot.on("message", message => {
     if(message.content === "Bonjour"){
         message.reply("salut ! :D");
         console.log("le bot a dit bonjour");
@@ -44,7 +45,7 @@ if(message.content.startsWith(prefix + "kick")) {
         if(!kick) {
             return message.channel.send("je ne sais pas si l'utilisateur :/")
         }
-        if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) {
+        if(!message.guild.member(bot.user).hasPermission("KICK_MEMBERS")) {
         return message.channel.send("je n'ai pas la permission pour kick");
         }
         kick.kick().then(member => {
@@ -62,7 +63,7 @@ if(message.content.startsWith(prefix + "ban")) {
     if(!ban) {
         return message.channel.send("Je ne sais pas si l'utilisateur existe");
     }
-    if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) {
+    if(!message.guild.member(bot.user).hasPermission("BAN_MEMBERS")) {
         return message.channel.send("je n'ai pas la permission pour ban");
     }
     ban.ban().then(member => {
@@ -70,15 +71,34 @@ if(message.content.startsWith(prefix + "ban")) {
     })
 }
 
-       
-            if (message.content.startsWith('*report')) {
-                if(message.content === "*report") {
-                    return message.reply( "Vous devez mentionner un utilisateur et une cause")
-                }
-            var str = message.content
-            client.channels.get('469104398992277504').send(str.substring(7))
-        }
+         
+         let messageArray = message.content.split(" ");
+         let cmd = messageArray[0];
+         let args = messageArray.slice(1);
+if(cmd === `${prefix}report`){
+    let User = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    if(!User)   return message.channel.send("Je ne trouve pas l'utilisateur")
+    let reason = args.join(" ").slice(22);
+    let reportEmbed = new Discord.RichEmbed()
+    .setTitle("Reports")
+    .setDescription("les Signalement des joueurs")
+    .setColor("#40A497")
+    .addField("Joueurs Signalé", `${User} et l'ID Utilisateur: ${User.id}`)
+    .addField("Signalé par" , `${message.author} et L'ID Utilisateur: ${message.author.id}`)
+    .addField("Channel:" , message.channel)
+    .addField("Heure" , message.createdAt)
+    .addField("Raison" , reason);
     
+
+    let reportchannel = message.guild.channels.find('name' , "reports");
+    if(!reportchannel) return message.channel.send("Je ne peut pas trouver le channel 'reports'")
+    message.delete().catch(O_o=>{});
+    reportchannel.send(reportEmbed);
+}
+    
+       
+         
+    return;
     }
     
     
