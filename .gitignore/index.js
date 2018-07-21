@@ -5,7 +5,7 @@ const bot = new Discord.Client();
 var prefix = "/"
 
 
-bot.login("NDY5MTQ0MDIzNTIxNjg5NjEw.DjD5uQ.SlTpQWPH2HpGVkC2zRujcgHVETI");
+bot.login("process.env.TOKEN");
 
 bot.on("ready" , () => {
     bot.user.setActivity("Le Serveur" , {type:("WATCHING")});
